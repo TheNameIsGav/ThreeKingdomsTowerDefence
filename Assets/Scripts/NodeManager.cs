@@ -7,12 +7,15 @@ using System.Collections.Generic;
 /// </summary>
 public class NodeManager : MonoBehaviour
 {
+    //Controlled by the UI as to what tower prefab is selected to spawn
     public GameObject TowerPrefab;
     public LayerMask GroundLayer;
-
+    public GameObject Map;
 
     private void Awake() {
         GameManager.CurrentNodeManager = this;
+        //Grab current "Map" prefab and spawn it in;
+        Map = GameManager.CurrentBattleMap;
     }
 
     // Update is called once per frame
@@ -21,6 +24,10 @@ public class NodeManager : MonoBehaviour
         if (Input.GetMouseButtonDown(0)) {
             PlaceTower();
         }
+    }
+
+    private void OnDestroy() {
+        GameManager.CurrentNodeManager = null;
     }
 
     void PlaceTower() {

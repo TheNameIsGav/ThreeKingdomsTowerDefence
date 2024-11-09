@@ -9,12 +9,15 @@ using UnityEngine;
 public static class GameManager {
 
     //public GameManager GlobalGameManager => this;
+
+    #region Node Related
     public static NodeManager CurrentNodeManager = null;
 
-    //private void Awake() {
-    //    LoadSave();
-    //    StateEnter(State.InBattle); //TESTING ONLY - CHANGE LATER
-    //}
+    //Set of Enemy Prefabs and their spawn weight (based on difficulty)
+    public static List<(GameObject, int)> enemyPool = new List<(GameObject, int)>();
+    public static GameObject CurrentBattleMap;
+
+    #endregion
 
     /// <summary>
     /// Where Save Data will be loaded
@@ -30,11 +33,20 @@ public static class GameManager {
 
     }
 
-    private static float _fireFactionPower = 0.0f;
-    private static float _waterFactionPower = 0.0f;
-    private static float _EarthFactionPower = 0.0f;
+    #region Faction Related
 
-    private static State _state = State.InBattle; //Testing Purposes only, change later
+    private static float _fireFactionPower = 0.0f;
+    private readonly static Color FireFactionColor = Color.red;
+
+    private static float _waterFactionPower = 0.0f;
+    private readonly static Color WaterFactionColor = Color.red;
+
+    private static float _earthFactionPower = 0.0f;
+    private readonly static Color EarthFactionColor = Color.red;
+
+    #endregion
+
+    private static State _state = State.GameStart;
     private static State _previousState = State.GameStart;
     public static State CurrentState => _state;
 
