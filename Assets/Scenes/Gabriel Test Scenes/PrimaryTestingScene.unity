@@ -705,10 +705,6 @@ PrefabInstance:
       propertyPath: TowerPrefab
       value: 
       objectReference: {fileID: 7190851242700311776, guid: b725874c291a6014c8a1351917c57565, type: 3}
-    - target: {fileID: 5545355482473731110, guid: 0c7f63901f4221a499d9f21a426e0745, type: 3}
-      propertyPath: GroundLayer.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
     - target: {fileID: 5822359247447020446, guid: 0c7f63901f4221a499d9f21a426e0745, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.3434606

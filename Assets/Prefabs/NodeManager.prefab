@@ -44,5 +44,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d1cc51ce49487248baaef1a793f333e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  TowerPrefab: {fileID: 0}
+  GroundLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  ObjectMask:
+    serializedVersion: 2
+    m_Bits: 128
   StartNode: {fileID: 0}
   EndNode: {fileID: 0}
+  MONEY: 999999

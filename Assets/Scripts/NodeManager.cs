@@ -1,4 +1,6 @@
+using System.Linq;
 using UnityEngine;
+using System.Collections.Generic;
 
 /// <summary>
 /// Represents the class that handles the processing and logic of a Node, including the battlemap and difficulty scaling. 
@@ -26,26 +28,26 @@ public class NodeManager : MonoBehaviour
         RaycastHit hit;
         GameObject obj;
 
-        BoxCollider collider = TowerPrefab.GetComponent<BoxCollider>();
-        if (collider == null) {
-            Debug.LogError("BoxCollider not found on Tower Prefab");
-            return;
-        }
-        Vector3 boxCenter = collider.bounds.center;
-        Vector3 boxHalfExtents = collider.bounds.extents;
         Debug.DrawRay(ray.origin, ray.direction * 100, Color.green);
         if (Physics.Raycast(ray, out hit, Mathf.Infinity, GroundLayer)) {
-            float towerHeight = collider.bounds.size.y/2;
-            obj = Instantiate(TowerPrefab, hit.point + new Vector3(0, towerHeight, 0), Quaternion.identity);
-            obj.SetActive(false);
+            obj = Instantiate(TowerPrefab, hit.point, Quaternion.identity);
         } else {
             return;
         }
 
-        Collider[] overlappingColliders = Physics.OverlapBox(boxCenter, boxHalfExtents, Quaternion.identity);
-        bool isOverlapping = overlappingColliders.Length > 0;
+        BoxCollider collider = obj.GetComponent<BoxCollider>();
+        if (collider == null) {
+            Debug.LogError("BoxCollider not found on Tower Prefab");
+            return;
+        }
 
-        if (isOverlapping) {
+        obj.transform.position = obj.transform.position + new Vector3(0, collider.size.y / 2 + .5f, 0);
+        Vector3 boxCenter = obj.transform.position;
+        Vector3 boxHalfExtents = collider.bounds.extents;
+
+        List<Collider> collision = Physics.OverlapBox(obj.transform.position, obj.transform.localScale / 2).ToList();
+        collision.Remove(obj.gameObject.GetComponent<BoxCollider>());
+        if (collision.Count > 0) {
             Debug.Log("Object overlaps with another collider");
             Destroy(obj);
             return;
@@ -58,15 +60,14 @@ public class NodeManager : MonoBehaviour
             boxCenter + new Vector3(-boxHalfExtents.x, 0, -boxHalfExtents.z)
         };
         foreach (var point in checkPoints) {
-            if (!Physics.Raycast(point + Vector3.up * 0.1f, Vector3.down, 0.2f, GroundLayer)) {
-                Debug.Log("Object not fully on ground");
+            if (!Physics.Raycast(point + Vector3.up * 0.1f, Vector3.down, Mathf.Infinity, GroundLayer)) {
+                Debug.Log("Object not fully over ground");
                 Destroy(obj);
                 return;
             }
         }
-
-        obj.SetActive(true);
     }
+
 
     public WalkNode StartNode;
     public WalkNode EndNode;
