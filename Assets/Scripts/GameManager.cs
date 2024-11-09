@@ -6,37 +6,39 @@ using UnityEngine;
 /// <summary>
 /// Basic GameManager that controls state, and includes methods for instantiating the map, etc.
 /// </summary>
-public class GameManager : MonoBehaviour {
+public static class GameManager {
 
-    public GameManager GlobalGameManager => this;
+    //public GameManager GlobalGameManager => this;
+    public static NodeManager CurrentNodeManager = null;
 
-    private void Awake() {
-        LoadSave();
-    }
+    //private void Awake() {
+    //    LoadSave();
+    //    StateEnter(State.InBattle); //TESTING ONLY - CHANGE LATER
+    //}
 
     /// <summary>
     /// Where Save Data will be loaded
     /// </summary>
-    private void LoadSave() {
+    private static void LoadSave() {
         
     }
 
     /// <summary>
     /// 
     /// </summary>
-    private void SaveGame() {
+    private static void SaveGame() {
 
     }
 
-    private float _fireFactionPower = 0.0f;
-    private float _waterFactionPower = 0.0f;
-    private float _EarthFactionPower = 0.0f;
+    private static float _fireFactionPower = 0.0f;
+    private static float _waterFactionPower = 0.0f;
+    private static float _EarthFactionPower = 0.0f;
 
-    private State _state = State.GameStart;
-    private State _previousState = State.GameStart;
-    public State CurrentState => _state;
+    private static State _state = State.InBattle; //Testing Purposes only, change later
+    private static State _previousState = State.GameStart;
+    public static State CurrentState => _state;
 
-    private List<(State, State)> _validStatePairs = new List<(State, State)>() {
+    private static List<(State, State)> _validStatePairs = new List<(State, State)>() {
         (State.GameStart, State.HomeScreen),
         (State.HomeScreen, State.WarMap),
         (State.WarMap, State.InPause),
@@ -64,7 +66,7 @@ public class GameManager : MonoBehaviour {
     /// Accepts a state, transitions to that state, then returns whether the transition was successful. 
     /// </summary>
     /// <returns>Returns ture if state exited correctly</returns>
-    public bool StateEnter(State stateToEnter) { 
+    public static bool StateEnter(State stateToEnter) { 
         (State, State) statePair = (CurrentState, stateToEnter);
         if (_validStatePairs.Contains(statePair)) {
             StateExit(_state);
@@ -80,7 +82,7 @@ public class GameManager : MonoBehaviour {
     /// Private Method used to exit a state. Should not be called outside of GameManager.
     /// </summary>
     /// <returns>Returns true if state exited correctly</returns>
-    private bool StateExit(State stateBeingExited) {
+    private static bool StateExit(State stateBeingExited) {
         _previousState = _state;
         OnStateExited.Invoke(_previousState);
         return false;
@@ -88,8 +90,8 @@ public class GameManager : MonoBehaviour {
 
     public delegate void StateEntered(State state);
     public delegate void StateExited(State state);
-    public event StateEntered OnStateEntered;
-    public event StateExited OnStateExited;
+    public static event StateEntered OnStateEntered;
+    public static event StateExited OnStateExited;
 
 
 }
