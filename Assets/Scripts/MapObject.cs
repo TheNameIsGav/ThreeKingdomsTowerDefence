@@ -15,6 +15,11 @@ public class MapObject : MonoBehaviour
         
     }
 
+    public void Claim() {
+        IsClaimed = true;
+    }
+
     public List<GameObject> Neighbors;
     public bool IsSpawn;
+    public bool IsClaimed;
 }

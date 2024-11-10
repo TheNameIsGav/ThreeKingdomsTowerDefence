@@ -36,13 +36,15 @@ public static class GameManager {
     #region Faction Related
 
     private static float _fireFactionPower = 0.0f;
-    private readonly static Color FireFactionColor = Color.red;
+    public readonly static Color FireFactionColor = Color.red;
 
     private static float _waterFactionPower = 0.0f;
-    private readonly static Color WaterFactionColor = Color.red;
+    public readonly static Color WaterFactionColor = Color.blue;
 
     private static float _earthFactionPower = 0.0f;
-    private readonly static Color EarthFactionColor = Color.red;
+    public readonly static Color EarthFactionColor = Color.yellow;
+
+    public readonly static Color PlayerFactionColor = Color.green;
 
     #endregion
 
