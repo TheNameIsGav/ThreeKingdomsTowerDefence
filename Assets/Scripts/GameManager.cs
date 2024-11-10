@@ -71,25 +71,40 @@ public static class GameManager {
         (State.GameEscScreenOpen, State.InBattle),
 
         (State.WarMap, State.HomeScreen)
-        
-        
-    
+           
     };
+
+    public static Faction FactionMapper(Color color) {
+        if (color.Equals(EarthFactionColor)) {
+            return Faction.Earth;
+        } else if (color.Equals(FireFactionColor)) {
+            return Faction.Fire;
+        } else if (color.Equals(WaterFactionColor)) {
+            return Faction.Water;
+        } else if (color.Equals(PlayerFactionColor)) {
+            return Faction.Player;
+        } else {
+            return Faction.None;
+        }
+    }
+
+    public static List<GameObject> MapsList = new List<GameObject>();
+    public static List<GameObject> TowersList = new List<GameObject>();
 
     /// <summary>
     /// Accepts a state, transitions to that state, then returns whether the transition was successful. 
     /// </summary>
     /// <returns>Returns ture if state exited correctly</returns>
     public static bool StateEnter(State stateToEnter) { 
-        (State, State) statePair = (CurrentState, stateToEnter);
-        if (_validStatePairs.Contains(statePair)) {
-            StateExit(_state);
+    (State, State) statePair = (CurrentState, stateToEnter);
+    if (_validStatePairs.Contains(statePair)) {
+        StateExit(_state);
 
-            _state = stateToEnter;
-            OnStateEntered.Invoke(_state);
-            return true;
-        }
-        return false;
+        _state = stateToEnter;
+        OnStateEntered.Invoke(_state);
+        return true;
+    }
+    return false;
     }
 
     /// <summary>
@@ -117,4 +132,12 @@ public enum State {
     InBattle,
     InPause,
     GameEscScreenOpen
+}
+
+public enum Faction {
+    None,
+    Player,
+    Earth,
+    Fire,
+    Water
 }

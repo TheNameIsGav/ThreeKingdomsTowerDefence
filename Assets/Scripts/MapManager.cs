@@ -25,6 +25,10 @@ public class MapManager : MonoBehaviour
             SpawnPoints[i].Item1.GetComponent<MapObject>().Claim();
         }
 
+        //Load map from Saved Data
+
+
+        //Initialize Map for new data
         bool valid = false;
         var cap = 100;
         while (!valid && cap > 0) {
@@ -34,6 +38,8 @@ public class MapManager : MonoBehaviour
             }
             cap--;
         }
+
+
 
     }
 
@@ -61,6 +67,7 @@ public class MapManager : MonoBehaviour
                 var script = curr.GetComponent<MapObject>();
                 if (!script.IsClaimed) {
                     currentSpriteRender.color = color;
+                    script.Faction = GameManager.FactionMapper(color);
                     script.Claim();
                     //Increment the count
                     colorCount++;
@@ -79,4 +86,29 @@ public class MapManager : MonoBehaviour
             }
         }
     }
+    
+    void AssignMap() {
+        //Goes through each map fragment and assigns them a map from static Map List, and a tower from the tower list.
+
+        List<GameObject> Maps = new List<GameObject>();
+        List<GameObject> Towers = new List<GameObject>();
+        foreach(GameObject go in MapTiles) {
+            if(Maps.Count == 0) {
+                Maps = new List<GameObject>(GameManager.MapsList).OrderBy(x => Guid.NewGuid()).ToList();
+            }
+            go.GetComponent<MapObject>().MapPrefab = Maps.First();
+            Maps.RemoveAt(0);
+
+            if (Towers.Count == 0) {
+                Towers = new List<GameObject>(GameManager.TowersList).OrderBy(x => Guid.NewGuid()).ToList();
+            }
+            go.GetComponent<MapObject>().TowerPrefab = Towers.First();
+            Towers.RemoveAt(0);
+        }
+    }
+
+    void UpdateMap() {
+
+    }
+
 }

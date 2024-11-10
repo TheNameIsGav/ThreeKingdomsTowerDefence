@@ -22,4 +22,7 @@ public class MapObject : MonoBehaviour
     public List<GameObject> Neighbors;
     public bool IsSpawn;
     public bool IsClaimed;
+    public Faction Faction;
+    public GameObject MapPrefab;
+    public GameObject TowerPrefab;
 }
